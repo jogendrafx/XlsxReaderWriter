@@ -1,8 +1,8 @@
-#XlsxReaderWriter
+# XlsxReaderWriter
 
 XlsxReaderWriter is an Objective-C library for iPhone / iPad and Mac. It parses and writes Excel OpenXml files (XLSX).
 
-##Features
+## Features
 
 XlsxReaderWriter is able to:
 
@@ -31,18 +31,18 @@ Todo:
 * Borders
 * Add better support for comments (add, remove, read)
 
-##Limitation
+## Limitation
 
 XlsxReaderWriter can't create a SpreadsheetML (XLSX) file from scratch. You have to open an existing file and modify it before saving it. Not really a problem: Create your file with Excel or Numbers with all the needed formatting (fills, borders, etc.) then include the file as a resource of your project.
 
-##Third parties
+## Third parties
 
 Third parties are included in this repository, not linked as git submodules.
 
 * SSZipArchive: Compression/decompression library
 * XMLDictionary: Converts XML to NSDictionary and NSDictionary to XML
 
-##Linking (Objective-C)
+## Linking (Objective-C)
 
 To include the library to your Xcode project:
 
@@ -55,7 +55,7 @@ To include the library to your Xcode project:
 
 Now, you can import BRAOfficeDocumentPackage.h in your code.
 
-##Linking (Swift bridging)
+## Linking (Swift bridging)
 
 If you want to use this library from some Swift code, be sure to follow the same steps as in the Objective-C linking, then:
 
@@ -65,9 +65,9 @@ If you want to use this library from some Swift code, be sure to follow the same
 
 More info about this could be find [here](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html)
 
-##How to 
-####Read a spreadsheet document (XLSX file)
-#####Objective-C
+## How to 
+#### Read a spreadsheet document (XLSX file)
+##### Objective-C
 ```objective-c
 NSString *documentPath = [[NSBundle mainBundle] pathForResource:@"testWorkbook" ofType:@"xlsx"];
 BRAOfficeDocumentPackage *spreadsheet = [BRAOfficeDocumentPackage open:documentPath];
@@ -77,8 +77,8 @@ BRAOfficeDocumentPackage *spreadsheet = [BRAOfficeDocumentPackage open:documentP
 var documentPath: String = NSBundle.mainBundle().pathForResource("testWorkbook", ofType: "xlsx")
 var spreadsheet: BRAOfficeDocumentPackage = BRAOfficeDocumentPackage.open(documentPath)
 ```
-####Save a spreadsheet document
-#####Objective-C
+#### Save a spreadsheet document
+##### Objective-C
 ```objective-c
 //Save
 [spreadsheet save];
@@ -87,7 +87,7 @@ var spreadsheet: BRAOfficeDocumentPackage = BRAOfficeDocumentPackage.open(docume
 NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"workbookCopy.xlsx"];
 [spreadsheet saveAs:fullPath];
 ```
-#####Swift
+##### Swift
 ```swift
 //Save
 spreadsheet.save()
@@ -96,8 +96,8 @@ spreadsheet.save()
 var fullPath: String = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).lastObject().stringByAppendingPathComponent("workbookCopy.xlsx")
 spreadsheet.saveAs(fullPath)
 ```
-####Get a worksheet
-#####Objective-C
+#### Get a worksheet
+##### Objective-C
 ```objective-c
 //First worksheet in the workbook
 BRAWorksheet *firstWorksheet = spreadsheet.workbook.worksheets[0];
@@ -113,17 +113,17 @@ var firstWorksheet: BRAWorksheet = spreadsheet.workbook.worksheets[0]
 //Worksheet named "Foo"
 var fooWorksheet: BRAWorksheet = spreadsheet.workbook.createWorksheetNamed("Foo")
 ```
-####Read cells content: Formula
-#####Objective-C
+#### Read cells content: Formula
+##### . Objective-C
 ```objective-c
 NSString *formula = [[worksheet cellForCellReference:@"B4"] formulaString]
 ```
-#####Swift
+##### Swift
 ```swift
 var formula: String = worksheet.cellForCellReference("B4").formulaString()
 ```
-####Read cells content: error
-#####Objective-C
+#### Read cells content: error
+##### Objective-C
 ```objective-c
 NSString *errorValue = nil;
 if ([[worksheet cellForCellReference:@"B2"] hasError]) {
@@ -137,28 +137,28 @@ if worksheet.cellForCellReference("B2").hasError() {
 	errorValue = worksheet.cellForCellReference("B2").stringValue()
 }
 ```
-####Read cells content: string
-#####Objective-C
+#### Read cells content: string
+##### Objective-C
 ```objective-c
 NSString *string = [[worksheet cellForCellReference:@"B6"] stringValue];
 ```
-#####Swift
+##### Swift
 ```swift
 var string: String = worksheet.cellForCellReference("B6").stringValue()
 ```
-####Read cells content: attributed string
-#####Objective-C
+#### Read cells content: attributed string
+##### Objective-C
 ```objective-c
 //Cell style is applied to the cell content
 NSAttributedString *attributedString = [[worksheet cellForCellReference:@"B5"] attributedStringValue];
 ```
-#####Swift
+##### Swift
 ```swift
 //Cell style is applied to the cell content
 var attributedString: NSAttributedString = worksheet.cellForCellReference("B5").attributedStringValue()
 ```
-####Read cells content: formatted number
-#####Objective-C
+#### Read cells content: formatted number
+##### Objective-C
 ```objective-c
 //Integer cell value
 NSInteger cellIntValue = [[worksheet cellForCellReference:@"B5"] integerValue];
@@ -169,7 +169,7 @@ CGFloat cellFloatValue = [[worksheet cellForCellReference:@"B5"] floatValue];
 //Formatted number cell value
 CGFloat cellFloatValue = [[worksheet cellForCellReference:@"B5"] stringValue];
 ```	
-#####Swift
+##### Swift
 ```swift
 //Integer cell value
 var cellIntValue: Int = CInteger(worksheet.cellForCellReference("B5"))!
@@ -180,25 +180,25 @@ var cellFloatValue: CGFloat = CFloat(worksheet.cellForCellReference("B5"))!
 //Formatted number cell value
 var cellFloatValue: CGFloat = worksheet.cellForCellReference("B5").stringValue()
 ```
-####Read cells content: boolean
-#####Objective-C
+#### Read cells content: boolean
+##### Objective-C
 ```objective-c
 BOOL cellTruth = [[worksheet cellForCellReference:@"B5"] boolValue];
 ```
-#####Swift
+##### Swift
 ```swift
 var cellTruth: Bool = CBool(worksheet.cellForCellReference("B5"))!
 ```
-####Write cells content: Formula
-#####Objective-C
+#### Write cells content: Formula
+##### Objective-C
 ```objective-c
 [[worksheet cellForCellReference:@"Y26" shouldCreate:YES] setFormulaString:@"TODAY()"];
 ```
-#####Swift
+##### Swift
 ```swift
 worksheet.cellForCellReference("Y26", shouldCreate: true).formulaString = "TODAY()"
 ```
-####Write cells content: error
+#### Write cells content: error
 #####Objective-C
 ```objective-c
 [[worksheet cellForCellReference:@"Y27" shouldCreate:YES] setError:@"#DIV/0!"];
